@@ -6,7 +6,7 @@ interface Props {
   }
 }
 
-export default async function Movie(props : Props) {
+export default async function MoviePage(props : Props) {
   return (
     <div>Movie</div>
   )

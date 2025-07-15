@@ -1,6 +1,17 @@
+'use client'
+
 import Link from 'next/link'
+import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'; 
 
 const Header = () => {
+
+  const user = useUser();
+  const supabase = useSupabaseClient();
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+  }
+
   return (
     <header className='p-6 fixed top-0 border-b w-full backdrop-blur z-50'>
       <nav className='flex justify-between'>
@@ -15,9 +26,15 @@ const Header = () => {
           <Link href='/'>
             <p>My Favorites</p>
           </Link>
-          <Link href='/'>
-            <p>Sign in</p>
-          </Link>
+          {user ? (
+            <button onClick={handleSignOut} className="text-xl">
+              Exit
+            </button>
+          ) : (
+            <Link href="/login">
+              <p className="text-xl">Sign in</p>
+            </Link>
+          )}
         </div>
       </nav>
     </header>
