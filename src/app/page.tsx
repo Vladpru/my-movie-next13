@@ -8,6 +8,8 @@ import requests from "@/utils/request";
 import { useEffect } from "react";
 
 import { useState } from "react";
+import MovieCard from "@/components/MovieCard";
+import Link from "next/link";
 
 export default function Home() {
   const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
@@ -43,16 +45,13 @@ export default function Home() {
           </li>
         ))}
       </ul>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+      <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {movies.map((movie: MovieT) => (
-          <Image
-            key={movie.id}
-            width={200}
-            height={300}
-            alt={movie.title || movie.name || "Movie poster"}
-            src={`${BASE_URL}${movie.poster_path}`}
-            className="rounded-lg"
-          />
+          <div key={movie.id} className="flex justify-center items-center">
+            <Link href={`/movie/${movie.id}`}>
+              <MovieCard movie={movie} />
+            </Link>
+          </div>
         ))}
       </div>
     </div>

@@ -6,11 +6,11 @@ interface MovieCardProps {
   movie : MovieT;
 }
 
-const BASE_URL = 'https://image.tmdb.org/t/p/w500';
+const BASE_URL = 'https://image.tmdb.org/t/p/original/';
 
 const MovieCard = ({ movie } : MovieCardProps) => {
   return (
-    <div className='p-3 border-1'>
+    <div className='p-3 border-1 max-w-[230px] flex flex-col items-center gap-6'>
       <Image
         key={movie.id}
         width={200}
@@ -19,6 +19,7 @@ const MovieCard = ({ movie } : MovieCardProps) => {
         src={`${BASE_URL}${movie.poster_path}`}
         className="rounded-lg"
       />
+      <h1>{movie.title}</h1>
     </div>
   )
 }
