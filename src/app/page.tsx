@@ -4,44 +4,28 @@ import Header from "@/components/Header";
 import { MovieT } from "@/types";
 import axios from "axios";
 import Image from "next/image";
-import { useState, useEffect } from "react";
 import requests from "@/utils/request";
+import { useEffect } from "react";
+
+import { useState } from "react";
 
 export default function Home() {
+  const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
+  const BASE_URL = "https://image.tmdb.org/t/p/original/";
   const [movies, setMovies] = useState<MovieT[]>([]);
-  const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
-  const BASE_URL = "https://image.tmdb.org/t/p/original";
 
-  // Fetch initial trending movies on component mount
   useEffect(() => {
-    const fetchInitialMovies = async () => {
-      const url = `https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}&language=en-US`;
+    const fetchMovies = async () => {
       try {
-        const response = await axios.get(url);
-        setMovies(response.data.results);
-      } catch (error) {
-        console.error("Error fetching initial movies:", error);
-      }
-    };
-    fetchInitialMovies();
-  }, [API_KEY]);
-
-  const handleCategorySelect = async (category: string) => {
-    const selectedKey = Object.keys(requests).find(
-      (key) => requests[key].title === category
-    );
-
-    if (selectedKey) {
-      const url = requests[selectedKey].url;
-      const fullUrl = `https://api.themoviedb.org/3${url}`;
-      try {
-        const response = await axios.get(fullUrl);
+        const response = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`);
         setMovies(response.data.results);
       } catch (error) {
         console.error("Error fetching movies:", error);
       }
-    }
-  };
+    };
+    fetchMovies();
+  }, [API_KEY]);
+
 
   const titles = Object.values(requests).map((category) => category.title);
 
@@ -53,7 +37,7 @@ export default function Home() {
           <li
             key={index}
             className="cursor-pointer"
-            onClick={() => handleCategorySelect(title)}
+            // onClick={() => handleCategorySelect(title)}
           >
             {title}
           </li>
